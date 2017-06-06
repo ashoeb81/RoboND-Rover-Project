@@ -107,11 +107,9 @@ def perception_step(Rover):
                       ])
     warped = perspect_transform(Rover.img, src, dst)
 
-    #1) Mark current location as having been visited by rover
+    #1) Increment visit count for current location of the rover
     rover_y, rover_x = [np.int_(Rover.pos[1]), np.int_(Rover.pos[0])]
-    Rover.worldmap_visited[rover_y - 10:rover_y + 10, rover_x - 10: rover_x + 10] = 1
-    Rover.worldmap_visited /= 2
-
+    Rover.worldmap_visited[rover_y-5:rover_y+5, rover_x-5:rover_x+5] += 1
 
     # 2) Apply color threshold to identify navigable terrain/obstacles/rock samples
     terrain = color_thresh(warped, rgb_thresh_low=(160, 160, 160), rgb_thresh_high=(255, 255, 255))
