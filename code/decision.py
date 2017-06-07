@@ -25,18 +25,19 @@ def decision_step(Rover):
                 Rover.brake = 0
                 angle = np.mean(Rover.nav_angles * 180 / np.pi)
                 visit_count = []
-                for delta in np.arange(-25, 25, step=5):
-                    new_x = 100 * np.cos((angle+delta)*np.pi/180.)
-                    new_y = 100 * np.cos((angle+delta)*np.pi/180.)
+                for delta in np.arange(-45, 45, step=5):
+                    new_x = 70 * np.cos((angle+delta)*np.pi/180.)
+                    new_y = 70 * np.cos((angle+delta)*np.pi/180.)
                     new_x, new_y = perception.pix_to_world(
                         new_x, new_y, Rover.pos[0], Rover.pos[1], Rover.yaw,
                         Rover.worldmap.shape[0], 10)
                     if not np.all(Rover.worldmap[new_y, new_x] == [255, 0, 0]):
                         count = np.sum(Rover.worldmap_visited[new_y-5:new_y+5, new_x-5:new_x+5].ravel())
                         visit_count.append((delta, count))
+                print(visit_count)
                 if len(visit_count) > 0:
                     best_delta = sorted(visit_count, key=lambda record: record[1])[0][0]
-                    Rover.steer = np.clip(angle+best_delta, -15, 15)
+                    Rover.steer = angle + best_delta
                 else:
                     Rover.steer = np.clip(angle, -15, 15)
             # If there's a lack of navigable terrain pixels then go to 'stop' mode
