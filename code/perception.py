@@ -86,7 +86,8 @@ def perspect_transform(img, src, dst):
 
 
 # Define a function that returns pixels in the field of view (fov) of
-# the rover camera.
+# the rover camera.  Where the field of view of the camera is defined
+# in terms of allowable angle (e.g. -pi/4 to pi/4) and distance from camera.
 def pixels_in_fov(xpos, ypos, fov=np.pi / 4):
     rho, theta = to_polar_coords(xpos, ypos)
     theta_in_fov = np.abs(theta) < fov
